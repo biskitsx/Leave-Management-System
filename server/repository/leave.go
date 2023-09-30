@@ -8,9 +8,9 @@ import (
 
 type Leave struct {
 	gorm.Model
-	TimeStart time.Time
-	TimeEnd   time.Time
-	Type      string
-	Detail    string
-	UserID    uint
+	TimeStart time.Time `json:"timeStart"`
+	TimeEnd   time.Time `json:"timeEnd"`
+	Type      string    `json:"type"`
+	Detail    string    `json:"detail"`
+	UserID    uint      `json:"userId"`
 }

@@ -19,4 +19,6 @@ type LeaveResponse struct {
 	Detail    string `json:"detail"`
 	TimeStart string `json:"time_start"`
 	TimeEnd   string `json:"time_end"`
+	CreatedAt string `json:"created_at"`
+	UpdatedAt string `json:"updated_at"`
 }

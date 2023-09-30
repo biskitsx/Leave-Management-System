@@ -1,8 +1,10 @@
 package service
 
 import (
+	"fmt"
 	"time"
 
+	"github.com/biskitsx/Leave-Management-System/logs"
 	"github.com/biskitsx/Leave-Management-System/repository"
 	"gorm.io/gorm"
 )
@@ -19,14 +21,17 @@ func NewLeaveService(db *gorm.DB) LeaveService {
 }
 
 func (s leaveService) AddLeave(req AddLeaveRequest, userId uint) (*LeaveResponse, error) {
-	timeStartDate, err := time.Parse("2006-01-02", req.TimeStart)
+	timeStartDate, err := time.Parse(time.RFC3339, req.TimeStart)
+	if err != nil {
+		logs.Error(err)
+		return nil, err
+	}
+	timeEndDate, err := time.Parse(time.RFC3339, req.TimeEnd)
 	if err != nil {
 		return nil, err
 	}
-	timeEndDate, err := time.Parse("2006-01-02", req.TimeEnd)
-	if err != nil {
-		return nil, err
-	}
+	fmt.Println(timeEndDate)
+
 	leave := repository.Leave{
 		TimeStart: timeStartDate,
 		TimeEnd:   timeEndDate,
@@ -40,8 +45,10 @@ func (s leaveService) AddLeave(req AddLeaveRequest, userId uint) (*LeaveResponse
 		ID:        leave.ID,
 		LeaveType: leave.Type,
 		Detail:    leave.Detail,
-		TimeStart: leave.TimeStart.Format("2006-01-02"),
-		TimeEnd:   leave.TimeEnd.Format("2006-01-02"),
+		TimeStart: leave.TimeStart.Format(time.RFC3339),
+		TimeEnd:   leave.TimeEnd.Format(time.RFC3339),
+		CreatedAt: leave.CreatedAt.Format(time.RFC3339),
+		UpdatedAt: leave.UpdatedAt.Format(time.RFC3339),
 	}, nil
 }
 
@@ -56,6 +63,8 @@ func (s leaveService) GetLeavesByUser(userId uint) ([]LeaveResponse, error) {
 			Detail:    leave.Detail,
 			TimeStart: leave.TimeStart.Format("2006-01-02"),
 			TimeEnd:   leave.TimeEnd.Format("2006-01-02"),
+			CreatedAt: leave.CreatedAt.Format(time.RFC3339),
+			UpdatedAt: leave.UpdatedAt.Format(time.RFC3339),
 		})
 	}
 	return res, nil
@@ -72,6 +81,8 @@ func (s leaveService) GetLeaves() ([]LeaveResponse, error) {
 			Detail:    leave.Detail,
 			TimeStart: leave.TimeStart.Format("2006-01-02"),
 			TimeEnd:   leave.TimeEnd.Format("2006-01-02"),
+			CreatedAt: leave.CreatedAt.Format(time.RFC3339),
+			UpdatedAt: leave.UpdatedAt.Format(time.RFC3339),
 		})
 	}
 	return res, nil

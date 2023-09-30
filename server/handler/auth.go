@@ -42,7 +42,5 @@ func (h *authHandler) Login(c *fiber.Ctx) error {
 		MaxAge: 600,
 	}
 	c.Cookie(accessCookie)
-	return c.JSON(fiber.Map{
-		"message": "success",
-	})
+	return c.JSON(res)
 }

@@ -32,7 +32,7 @@ func setAuthRoute(app *fiber.App, db *gorm.DB) {
 func setLeaveRoute(app *fiber.App, db *gorm.DB) {
 	leaveHandler := handler.NewLeaveHandler(service.NewLeaveService(db))
 	app.Get("/leaves", leaveHandler.GetLeaves)
-	app.Post("/leaves", leaveHandler.AddLeave)
+	app.Post("/leaves", middleware.VerifyLogin, leaveHandler.AddLeave)
 	app.Get("/leaves/me", middleware.VerifyLogin, leaveHandler.GetUserLeaves)
 	// app.Put("/leaves/:id", leaveHandler.UpdateLeave)
 	// app.Delete("/leaves/:id", leaveHandler.DeleteLeave)

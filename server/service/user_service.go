@@ -1,6 +1,8 @@
 package service
 
 import (
+	"fmt"
+
 	"github.com/biskitsx/Leave-Management-System/repository"
 	"gorm.io/gorm"
 )
@@ -18,7 +20,7 @@ func NewUserService(db *gorm.DB) UserService {
 
 func (s userService) GetUsers() ([]GetUserResponse, error) {
 	var users []repository.User
-	s.db.Find(&users)
+	s.db.Preload("Leaves").Find(&users)
 	var res []GetUserResponse
 	for _, user := range users {
 		res = append(res, GetUserResponse{
@@ -26,7 +28,9 @@ func (s userService) GetUsers() ([]GetUserResponse, error) {
 			Username:  user.Username,
 			FirstName: user.FirstName,
 			LastName:  user.LastName,
+			Leaves:    user.Leaves,
 		})
 	}
+	fmt.Println(res)
 	return res, nil
 }

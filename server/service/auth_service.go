@@ -49,7 +49,7 @@ func (s *authService) Signup(req NewSignupRequest) (*NewSignupResponse, error) {
 
 func (s authService) Login(req LoginRequest) (*LoginResponse, error) {
 	user := repository.User{}
-	s.db.First(&user, "username = ?", req.Username)
+	s.db.Preload("Leaves").First(&user, "username = ?", req.Username)
 	if user.Username == "" {
 		return nil, errors.New("username does not exist")
 	}
@@ -66,7 +66,24 @@ func (s authService) Login(req LoginRequest) (*LoginResponse, error) {
 	if err != nil {
 		return nil, err
 	}
+
+	LeaveResponses := []LeaveResponse{}
+	for _, leave := range user.Leaves {
+		LeaveResponses = append(LeaveResponses, LeaveResponse{
+			ID:        leave.ID,
+			LeaveType: leave.Type,
+			Detail:    leave.Detail,
+			TimeStart: leave.TimeStart.Format("2006-01-02"),
+			TimeEnd:   leave.TimeEnd.Format("2006-01-02"),
+			CreatedAt: leave.CreatedAt.Format("2006-01-02 15:04:05"),
+			UpdatedAt: leave.UpdatedAt.Format("2006-01-02 15:04:05"),
+		})
+	}
 	return &LoginResponse{
-		Token: accessToken,
+		Username:  user.Username,
+		FirstName: user.FirstName,
+		LastName:  user.LastName,
+		Leaves:    LeaveResponses,
+		Token:     accessToken,
 	}, nil
 }

@@ -25,7 +25,12 @@ type LoginRequest struct {
 }
 
 type LoginResponse struct {
-	Token string `json:"token"`
+	Username  string          `json:"username"`
+	Password  string          `json:"password"`
+	FirstName string          `json:"first_name"`
+	LastName  string          `json:"last_ame"`
+	Leaves    []LeaveResponse `json:"leaves"`
+	Token     string          `json:"token"`
 }
 
 type AccessTokenInfo struct {
