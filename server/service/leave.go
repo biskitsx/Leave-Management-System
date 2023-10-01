@@ -2,7 +2,7 @@ package service
 
 type LeaveService interface {
 	AddLeave(AddLeaveRequest, uint) (*LeaveResponse, error)
-	GetLeavesByUser(uint) ([]LeaveResponse, error)
+	GetLeavesByUser(uint) (*LeaveResponseWithCount, error)
 	GetLeaves() ([]LeaveResponse, error)
 }
 
@@ -21,4 +21,12 @@ type LeaveResponse struct {
 	TimeEnd   string `json:"time_end"`
 	CreatedAt string `json:"created_at"`
 	UpdatedAt string `json:"updated_at"`
+	LeaveDay  uint   `json:"leave_day"`
+}
+
+type LeaveResponseWithCount struct {
+	LeaveResponses []LeaveResponse `json:"leave_responses"`
+	CountSick      uint            `json:"count_sick"`
+	CountBusiness  uint            `json:"count_business"`
+	CountVacation  uint            `json:"count_vacation"`
 }
