@@ -28,7 +28,7 @@ type LoginResponse struct {
 	Username  string          `json:"username"`
 	Password  string          `json:"password"`
 	FirstName string          `json:"first_name"`
-	LastName  string          `json:"last_ame"`
+	LastName  string          `json:"last_name"`
 	Leaves    []LeaveResponse `json:"leaves"`
 	Token     string          `json:"token"`
 }

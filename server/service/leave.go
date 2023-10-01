@@ -15,7 +15,7 @@ type AddLeaveRequest struct {
 
 type LeaveResponse struct {
 	ID        uint   `json:"id"`
-	LeaveType string `json:"leave_type"`
+	Type      string `json:"type"`
 	Detail    string `json:"detail"`
 	TimeStart string `json:"time_start"`
 	TimeEnd   string `json:"time_end"`
