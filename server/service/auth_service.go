@@ -66,12 +66,21 @@ func (s authService) Login(req LoginRequest) (*LoginResponse, error) {
 	if err != nil {
 		return nil, err
 	}
-
+	countSick := 0
+	countBusiness := 0
+	countVacation := 0
 	LeaveResponses := []LeaveResponse{}
 	for _, leave := range user.Leaves {
+		if leave.Type == "ลาป่วย" {
+			countSick += 1
+		} else if leave.Type == "ลากิจ" {
+			countBusiness += 1
+		} else if leave.Type == "ลาพักร้อน" {
+			countVacation += 1
+		}
 		LeaveResponses = append(LeaveResponses, LeaveResponse{
 			ID:        leave.ID,
-			LeaveType: leave.Type,
+			Type:      leave.Type,
 			Detail:    leave.Detail,
 			TimeStart: leave.TimeStart.Format("2006-01-02"),
 			TimeEnd:   leave.TimeEnd.Format("2006-01-02"),
@@ -83,7 +92,12 @@ func (s authService) Login(req LoginRequest) (*LoginResponse, error) {
 		Username:  user.Username,
 		FirstName: user.FirstName,
 		LastName:  user.LastName,
-		Leaves:    LeaveResponses,
-		Token:     accessToken,
+		LeaveResponsesWithCount: LeaveResponseWithCount{
+			LeaveResponses: LeaveResponses,
+			CountSick:      uint(countSick),
+			CountBusiness:  uint(countBusiness),
+			CountVacation:  uint(countVacation),
+		},
+		Token: accessToken,
 	}, nil
 }
