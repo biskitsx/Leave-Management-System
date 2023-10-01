@@ -8,6 +8,7 @@ import (
 	"github.com/biskitsx/Leave-Management-System/repository"
 	"github.com/biskitsx/Leave-Management-System/router"
 	"github.com/gofiber/fiber/v2"
+	"github.com/gofiber/fiber/v2/middleware/cors"
 	"github.com/spf13/viper"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
@@ -19,13 +20,19 @@ func main() {
 	db := initDatabase()
 	router.Init(app, db)
 
-	app.Listen(":3000")
+	app.Listen(":8000")
 }
 
 func initServer() *fiber.App {
 	app := fiber.New(fiber.Config{
 		ErrorHandler: config.NewCustomConfigFiber,
 	})
+	app.Use(cors.New(cors.Config{
+		AllowOrigins: "http://localhost:3000",
+		// AllowMethods:     strings.Split(viper.GetString("cors.allow_methods"), ","),
+		// AllowHeaders:     strings.Split(viper.GetString("cors.allow_headers"), ","),
+		AllowCredentials: true,
+	}))
 	return app
 }
 
