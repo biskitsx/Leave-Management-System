@@ -17,9 +17,13 @@ function Login() {
         try {
             const res = await axios.post('http://localhost:8000/auth/login', { username, password }, { withCredentials: true })
             const data = res.data
-            const { leaves, ...user } = data
+            console.log(data)
+            const { leave_response_with_count, ...user } = data
+            console.log(leave_response_with_count)
+            console.log(user)
+            localStorage.setItem('user', JSON.stringify({ user }))
             dispatch(login(user))
-            dispatch(setLeave(leaves))
+            dispatch(setLeave(leave_response_with_count))
             router.push('/')
         } catch (error) {
             console.log(error)
