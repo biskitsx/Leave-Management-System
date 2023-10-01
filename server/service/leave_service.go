@@ -38,36 +38,57 @@ func (s leaveService) AddLeave(req AddLeaveRequest, userId uint) (*LeaveResponse
 		Type:      req.Type,
 		Detail:    req.Detail,
 		UserID:    userId,
+		LeaveDay:  uint(timeEndDate.Sub(timeStartDate).Hours()/24) + 1,
 	}
 	s.db.Create(&leave)
 
 	return &LeaveResponse{
 		ID:        leave.ID,
-		LeaveType: leave.Type,
+		Type:      leave.Type,
 		Detail:    leave.Detail,
 		TimeStart: leave.TimeStart.Format(time.RFC3339),
 		TimeEnd:   leave.TimeEnd.Format(time.RFC3339),
 		CreatedAt: leave.CreatedAt.Format(time.RFC3339),
 		UpdatedAt: leave.UpdatedAt.Format(time.RFC3339),
+		LeaveDay:  leave.LeaveDay,
 	}, nil
 }
 
-func (s leaveService) GetLeavesByUser(userId uint) ([]LeaveResponse, error) {
+func (s leaveService) GetLeavesByUser(userId uint) (*LeaveResponseWithCount, error) {
 	var leaves []repository.Leave
 	s.db.Where("user_id = ?", userId).Find(&leaves)
+	countSick := 0
+	countBusiness := 0
+	countVacation := 0
+
+	for _, leave := range leaves {
+		if leave.Type == "ลาป่วย" {
+			countSick += 1
+		} else if leave.Type == "ลากิจ" {
+			countBusiness += 1
+		} else if leave.Type == "ลาพักร้อน" {
+			countVacation += 1
+		}
+	}
 	var res []LeaveResponse
 	for _, leave := range leaves {
 		res = append(res, LeaveResponse{
 			ID:        leave.ID,
-			LeaveType: leave.Type,
+			Type:      leave.Type,
 			Detail:    leave.Detail,
 			TimeStart: leave.TimeStart.Format("2006-01-02"),
 			TimeEnd:   leave.TimeEnd.Format("2006-01-02"),
 			CreatedAt: leave.CreatedAt.Format(time.RFC3339),
 			UpdatedAt: leave.UpdatedAt.Format(time.RFC3339),
+			LeaveDay:  leave.LeaveDay,
 		})
 	}
-	return res, nil
+	return &LeaveResponseWithCount{
+		LeaveResponses: res,
+		CountSick:      uint(countSick),
+		CountBusiness:  uint(countBusiness),
+		CountVacation:  uint(countVacation),
+	}, nil
 }
 
 func (s leaveService) GetLeaves() ([]LeaveResponse, error) {
@@ -77,12 +98,13 @@ func (s leaveService) GetLeaves() ([]LeaveResponse, error) {
 	for _, leave := range leaves {
 		res = append(res, LeaveResponse{
 			ID:        leave.ID,
-			LeaveType: leave.Type,
+			Type:      leave.Type,
 			Detail:    leave.Detail,
 			TimeStart: leave.TimeStart.Format("2006-01-02"),
 			TimeEnd:   leave.TimeEnd.Format("2006-01-02"),
 			CreatedAt: leave.CreatedAt.Format(time.RFC3339),
 			UpdatedAt: leave.UpdatedAt.Format(time.RFC3339),
+			LeaveDay:  leave.LeaveDay,
 		})
 	}
 	return res, nil
