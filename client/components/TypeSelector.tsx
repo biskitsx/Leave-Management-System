@@ -23,9 +23,9 @@ export default function TypeSelector({ type, setType }) {
                     label="Age"
                     onChange={handleChange}
                 >
-                    <MenuItem value={10}>ลากิจ</MenuItem>
-                    <MenuItem value={20}>ลาป่วย</MenuItem>
-                    <MenuItem value={30}>ลาพักร้อน</MenuItem>
+                    <MenuItem value={"ลากิจ"}>ลากิจ</MenuItem>
+                    <MenuItem value={"ลาป่วย"}>ลาป่วย</MenuItem>
+                    <MenuItem value={"ลาพักร้อน"}>ลาพักร้อน</MenuItem>
                 </Select>
             </FormControl>
         </Box>
