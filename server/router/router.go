@@ -27,6 +27,7 @@ func setAuthRoute(app *fiber.App, db *gorm.DB) {
 	authHandler := handler.NewAuthHandler(service.NewAuthService(db))
 	app.Post("/auth/signup", authHandler.Signup)
 	app.Post("/auth/login", authHandler.Login)
+	app.Post("/auth/logout", authHandler.Logout)
 }
 
 func setLeaveRoute(app *fiber.App, db *gorm.DB) {
