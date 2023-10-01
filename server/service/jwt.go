@@ -29,7 +29,7 @@ func NewJwtService() JwtService {
 func (service *jwtService) GenerateToken(payload interface{}, expiresIn uint) (string, error) {
 	claims := jwt.MapClaims{
 		"user": payload,
-		"exp":  time.Now().Add((time.Millisecond * time.Duration(expiresIn))).Unix(),
+		"exp":  time.Now().Add((time.Second * time.Duration(expiresIn))).Unix(),
 	}
 
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
