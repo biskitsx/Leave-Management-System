@@ -44,3 +44,13 @@ func (h *authHandler) Login(c *fiber.Ctx) error {
 	c.Cookie(accessCookie)
 	return c.JSON(res)
 }
+
+func (h *authHandler) Logout(c *fiber.Ctx) error {
+	accessCookie := &fiber.Cookie{
+		Name:   "access_token",
+		Value:  "",
+		MaxAge: -1,
+	}
+	c.Cookie(accessCookie)
+	return c.SendString("Logged out successfully")
+}
