@@ -4,7 +4,8 @@ import Modal from '@mui/material/Modal';
 import Button from '@mui/material/Button';
 import FirstComponent from './FirstComponent';
 import TypeSelector from './TypeSelector';
-
+import TextField from '@mui/material/TextField';
+import axios from 'axios';
 const style = {
     position: 'absolute' as 'absolute',
     top: '50%',
@@ -22,9 +23,24 @@ export default function AddLeaveBtn() {
     const [startDate, setStartDate] = React.useState<Date | null>(null);
     const [endDate, setEndDate] = React.useState<Date | null>(null);
     const [type, setType] = React.useState('');
+    const [detail, setDetail] = React.useState('');
 
-    console.log("startdate : " + startDate)
-    console.log("enddate : " + endDate)
+    const handleButton = async (e: React.SyntheticEvent) => {
+        try {
+
+            e.preventDefault()
+            const reqBody = {
+                "type": type,
+                "detail": detail,
+                "time_start": startDate?.toISOString(),
+                "time_end": endDate?.toISOString(),
+            }
+
+            const res = await axios.post('http://localhost:8000/leaves', reqBody, { withCredentials: true })
+        } catch (error) {
+            console.log(error)
+        }
+    }
     const handleOpen = () => {
         setOpen(true);
     };
@@ -34,7 +50,7 @@ export default function AddLeaveBtn() {
 
     return (
         <div>
-            <Button onClick={handleOpen} className='btn-primary'>เพิ่มข้อมูลการลา</Button>
+            <Button onClick={handleOpen} className='text-lg bg-green-500 text-white font-normal'>เพิ่มข้อมูลการลา</Button>
             <Modal
                 open={open}
                 onClose={handleClose}
@@ -47,8 +63,21 @@ export default function AddLeaveBtn() {
                         <div className='flex flex-col gap-5'>
                             <TypeSelector type={type} setType={setType} />
                             <FirstComponent setEndDate={setEndDate} setStartDate={setStartDate} />
+                            <div className='max-w-full'>
 
+                                <Box
+                                    component="form"
+                                    sx={{
+                                        // '& > :not(style)': {},
+                                    }}
+                                    noValidate
+                                    autoComplete="off"
+                                >
+                                    <TextField id="outlined-basic" label="detail" variant="outlined" className='w-full' value={detail} onChange={(e) => setDetail(e.target.value)} />
+                                </Box>
+                            </div>
                         </div>
+                        <button className='btn btn-accent' onClick={handleButton}>ยืนยัน</button>
                     </div>
                 </Box>
             </Modal>
