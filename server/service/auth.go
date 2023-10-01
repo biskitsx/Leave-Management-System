@@ -9,7 +9,7 @@ type NewSignupRequest struct {
 	Username  string `json:"username"`
 	Password  string `json:"password"`
 	FirstName string `json:"first_name"`
-	LastName  string `json:"last_ame"`
+	LastName  string `json:"last_name"`
 }
 
 type NewSignupResponse struct {
@@ -25,12 +25,12 @@ type LoginRequest struct {
 }
 
 type LoginResponse struct {
-	Username  string          `json:"username"`
-	Password  string          `json:"password"`
-	FirstName string          `json:"first_name"`
-	LastName  string          `json:"last_name"`
-	Leaves    []LeaveResponse `json:"leaves"`
-	Token     string          `json:"token"`
+	Username                string                 `json:"username"`
+	Password                string                 `json:"password"`
+	FirstName               string                 `json:"first_name"`
+	LastName                string                 `json:"last_name"`
+	LeaveResponsesWithCount LeaveResponseWithCount `json:"leave_response_with_count"`
+	Token                   string                 `json:"token"`
 }
 
 type AccessTokenInfo struct {
