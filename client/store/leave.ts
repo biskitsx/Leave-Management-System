@@ -9,6 +9,13 @@ export interface LeaveDTO {
     detail: string
     created_at: string
     updated_at: string
+    leave_day: number
+}
+export interface LeaveReponseWithCountDTO {
+    leave: LeaveDTO[]
+    count_sick: number
+    count_business: number
+    count_vacation: number
 }
 
 const leaveSlice = createSlice({
