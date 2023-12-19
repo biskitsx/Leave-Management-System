@@ -2,6 +2,6 @@ db:
     database: postgres
     username: postgres
     password: postgres
-    host: localhost
+    host: db
     port: 5432
     driver: postgresql
