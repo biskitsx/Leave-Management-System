@@ -6,6 +6,8 @@ import FirstComponent from './FirstComponent';
 import TypeSelector from './TypeSelector';
 import TextField from '@mui/material/TextField';
 import axios from 'axios';
+import { useDispatch } from 'react-redux';
+import { setLeave } from '@/store/leave';
 const style = {
     position: 'absolute' as 'absolute',
     top: '50%',
@@ -24,7 +26,13 @@ export default function AddLeaveBtn() {
     const [endDate, setEndDate] = React.useState<Date | null>(null);
     const [type, setType] = React.useState('');
     const [detail, setDetail] = React.useState('');
-
+    const dispatch = useDispatch()
+    const handleOpen = () => {
+        setOpen(true);
+    };
+    const handleClose = () => {
+        setOpen(false);
+    };
     const handleButton = async (e: React.SyntheticEvent) => {
         try {
 
@@ -36,17 +44,14 @@ export default function AddLeaveBtn() {
                 "time_end": endDate?.toISOString(),
             }
 
-            const res = await axios.post('http://localhost:8000/leaves', reqBody, { withCredentials: true })
+            await axios.post('http://localhost:8000/leaves', reqBody, { withCredentials: true })
+            const { data } = await axios.get('http://localhost:8000/leaves/me', { withCredentials: true })
+            dispatch(setLeave(data))
+            handleClose()
         } catch (error) {
             console.log(error)
         }
     }
-    const handleOpen = () => {
-        setOpen(true);
-    };
-    const handleClose = () => {
-        setOpen(false);
-    };
 
     return (
         <div>
@@ -62,7 +67,7 @@ export default function AddLeaveBtn() {
                         <h2 id="parent-modal-title" className='font-medium text-xl'>เพิ่มข้อมูลการลา</h2>
                         <div className='flex flex-col gap-5'>
                             <TypeSelector type={type} setType={setType} />
-                            <FirstComponent setEndDate={setEndDate} setStartDate={setStartDate} />
+                            <FirstComponent setEndDate={setEndDate} setStartDate={setStartDate} startDate={startDate} />
                             <div className='max-w-full'>
 
                                 <Box
@@ -73,7 +78,7 @@ export default function AddLeaveBtn() {
                                     noValidate
                                     autoComplete="off"
                                 >
-                                    <TextField id="outlined-basic" label="detail" variant="outlined" className='w-full' value={detail} onChange={(e) => setDetail(e.target.value)} />
+                                    <TextField id="outlined-basic" label="Description" variant="outlined" className='w-full' value={detail} onChange={(e) => setDetail(e.target.value)} />
                                 </Box>
                             </div>
                         </div>
