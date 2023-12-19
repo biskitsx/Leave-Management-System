@@ -28,7 +28,7 @@ const leaveSlice = createSlice({
             state.leave = action.payload;
         },
         addLeave: (state, action) => {
-            state.leave?.push(action.payload);
+            return
         }
     },
 });

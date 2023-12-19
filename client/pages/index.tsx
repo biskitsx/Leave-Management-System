@@ -6,14 +6,16 @@ import LeaveCount from '../components/LeaveCount'
 import LeaveTable from '../components/LeaveTable'
 import AddLeaveBtn from '../components/AddLeaveBtn'
 import { useSelector } from 'react-redux'
+import { useRouter } from 'next/router'
 
 
 export default function Home() {
     const { user } = useSelector((state) => state.user)
+    const router = useRouter()
     useEffect(() => {
         const { user } = JSON.parse(localStorage.getItem('user') || '{}')
         if (!user) {
-            window.location.href = '/login'
+            router.push('/login')
         }
     }, [])
     return (

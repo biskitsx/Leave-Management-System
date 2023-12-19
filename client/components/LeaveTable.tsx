@@ -4,14 +4,10 @@ import { LeaveDTO, setLeave } from '../store/leave'
 import axios from 'axios'
 function LeaveTable() {
     const { leave } = useSelector((state) => state.leave)
-    console.log(leave)
-    console.log(leave.leave_responses)
     const dispatch = useDispatch()
     useEffect(() => {
         const fetchLeave = async () => {
-            const res = await axios.get('http://localhost:8000/leaves/me', { withCredentials: true })
-            console.log(res.data)
-            const data = res.data
+            const { data } = await axios.get('http://localhost:8000/leaves/me', { withCredentials: true })
             dispatch(setLeave(data))
         }
         fetchLeave()

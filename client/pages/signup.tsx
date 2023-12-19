@@ -9,19 +9,16 @@ import { setLeave } from '../store/leave'
 function Login() {
     const [username, setUsername] = useState('')
     const [password, setPassword] = useState('')
+    const [firstName, setFirstName] = useState('')
+    const [lastName, setLastName] = useState('')
     const dispatch = useDispatch()
     const router = useRouter()
 
     const handleButton = async (e: SyntheticEvent) => {
         e.preventDefault()
         try {
-            const res = await axios.post('http://localhost:8000/auth/login', { username, password }, { withCredentials: true })
-            const data = res.data
-            const { leave_response_with_count, ...user } = data
-            localStorage.setItem('user', JSON.stringify({ user }))
-            dispatch(login(user))
-            dispatch(setLeave(leave_response_with_count))
-            router.push('/')
+            const res = await axios.post('http://localhost:8000/auth/signup', { username, password, first_name: firstName, last_name: lastName }, { withCredentials: true })
+            router.push('/login')
         } catch (error) {
             console.log(error)
         }
@@ -34,7 +31,7 @@ function Login() {
                 <div className="hero-content flex-col lg:flex-row-reverse">
                     <div className="card flex-shrink-0 w-96 shadow-2xl bg-base-100">
                         <form className="card-body">
-                            <h1 className="text-3xl font-bold text-center">Login now!</h1>
+                            <h1 className="text-3xl font-bold text-center">Sign up now!</h1>
                             <div className="form-control">
                                 <label className="label">
                                     <span className="label-text">Username</span>
@@ -46,12 +43,24 @@ function Login() {
                                     <span className="label-text">Password</span>
                                 </label>
                                 <input type="password" placeholder="password" className="input input-bordered" value={password} onChange={(e) => setPassword(e.target.value)} />
-                                <label className="label">
+                                {/* <label className="label">
                                     <a href="#" className="label-text-alt link link-hover">Forgot password?</a>
+                                </label> */}
+                            </div>
+                            <div className="form-control">
+                                <label className="label">
+                                    <span className="label-text">First Name</span>
                                 </label>
+                                <input type="text" placeholder="First name" className="input input-bordered" value={firstName} onChange={(e) => setFirstName(e.target.value)} />
+                            </div>
+                            <div className="form-control">
+                                <label className="label">
+                                    <span className="label-text">Last Name</span>
+                                </label>
+                                <input type="text" placeholder="Last Name" className="input input-bordered" value={lastName} onChange={(e) => setLastName(e.target.value)} />
                             </div>
                             <div className="form-control mt-6">
-                                <button className="btn btn-primary" onClick={handleButton}>Login</button>
+                                <button className="btn btn-primary" onClick={handleButton}>SIGN UP</button>
                             </div>
                         </form>
                     </div>
