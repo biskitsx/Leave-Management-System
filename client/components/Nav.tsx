@@ -7,11 +7,12 @@ import axios from 'axios'
 import { useRouter } from 'next/router'
 import Link from 'next/link'
 function Nav() {
-    const { user } = useSelector((state) => state.user)
+    const { user } = useSelector((state : any) => state.user)
     const dispatch = useDispatch()
     const router = useRouter()
     useEffect(() => {
         const data = localStorage.getItem('user')
+        // @ts-ignore 
         const user = JSON.parse(data)?.user
         if (user) {
             dispatch(login(user))

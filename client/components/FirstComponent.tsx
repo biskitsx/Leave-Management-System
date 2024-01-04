@@ -4,9 +4,9 @@ import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 
 interface FirstComponentDTO {
-    setStartDate: React.Dispatch<React.SetStateAction<Date>>
-    setEndDate: React.Dispatch<React.SetStateAction<Date>>
-    startDate: Date
+    setStartDate: React.Dispatch<React.SetStateAction<Date | null>>
+    setEndDate: React.Dispatch<React.SetStateAction<Date | null>>
+    startDate: Date | null
 }
 export default function FirstComponent({ setStartDate, setEndDate, startDate, }: FirstComponentDTO) {
     const today = new Date()
@@ -17,7 +17,7 @@ export default function FirstComponent({ setStartDate, setEndDate, startDate, }:
                 <div className='flex flex-col gap-2 w-full'>
                     <h1>วันที่เริ่มลา</h1>
                     <DatePicker
-                        onChange={(e) => {
+                        onChange={(e:any) => {
                             setStartDate(e.$d)
                         }}
                         disablePast
@@ -27,7 +27,7 @@ export default function FirstComponent({ setStartDate, setEndDate, startDate, }:
                 <div className='flex flex-col gap-2 w-full'>
                     <h1>วันที่สิ้นสุดลา</h1>
                     <DatePicker
-                        onChange={(e) => {
+                        onChange={(e:any) => {
                             setEndDate(e.$d)
                         }}
                         disablePast

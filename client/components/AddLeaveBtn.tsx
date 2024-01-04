@@ -67,6 +67,7 @@ export default function AddLeaveBtn() {
                         <h2 id="parent-modal-title" className='font-medium text-xl'>เพิ่มข้อมูลการลา</h2>
                         <div className='flex flex-col gap-5'>
                             <TypeSelector type={type} setType={setType} />
+                            {/* ts ignore */}
                             <FirstComponent setEndDate={setEndDate} setStartDate={setStartDate} startDate={startDate} />
                             <div className='max-w-full'>
 

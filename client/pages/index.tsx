@@ -10,7 +10,7 @@ import { useRouter } from 'next/router'
 
 
 export default function Home() {
-    const { user } = useSelector((state) => state.user)
+    const { user } = useSelector((state: any) => state.user)
     const router = useRouter()
     useEffect(() => {
         const { user } = JSON.parse(localStorage.getItem('user') || '{}')

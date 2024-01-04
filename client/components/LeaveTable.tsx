@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from 'react-redux'
 import { LeaveDTO, setLeave } from '../store/leave'
 import axios from 'axios'
 function LeaveTable() {
-    const { leave } = useSelector((state) => state.leave)
+    const { leave } = useSelector((state : any) => state.leave)
     const dispatch = useDispatch()
     useEffect(() => {
         const fetchLeave = async () => {

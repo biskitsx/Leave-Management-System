@@ -5,7 +5,7 @@ import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
 
-export default function TypeSelector({ type, setType }) {
+export default function TypeSelector({ type, setType } :any) {
 
 
     const handleChange = (event: SelectChangeEvent) => {

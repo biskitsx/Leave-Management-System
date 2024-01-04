@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react'
 import { useSelector } from 'react-redux'
 function LeaveCount() {
-    const { leave } = useSelector((state) => state.leave)
+    const { leave } = useSelector((state: any) => state.leave)
     return (
         <div className='flex flex-row gap-10 justify-center text-center'>
             <div className='p-10 w-56 h-56 bg-red-500 grid items-center rounded-md shadow-md'>
