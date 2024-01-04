@@ -1,9 +1,14 @@
-import * as React from 'react';
+import React from 'react';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 
-export default function FirstComponent({ setStartDate, setEndDate, startDate, }) {
+interface FirstComponentDTO {
+    setStartDate: React.Dispatch<React.SetStateAction<Date>>
+    setEndDate: React.Dispatch<React.SetStateAction<Date>>
+    startDate: Date
+}
+export default function FirstComponent({ setStartDate, setEndDate, startDate, }: FirstComponentDTO) {
     const today = new Date()
     return (
         <LocalizationProvider dateAdapter={AdapterDayjs}
