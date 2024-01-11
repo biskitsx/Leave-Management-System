@@ -28,7 +28,7 @@ func initServer() *fiber.App {
 		ErrorHandler: config.NewCustomConfigFiber,
 	})
 	app.Use(cors.New(cors.Config{
-		AllowOrigins: "http://localhost:3000",
+		AllowOrigins: "http://localhost:3000, http://client:3000",
 		// AllowMethods:     strings.Split(viper.GetString("cors.allow_methods"), ","),
 		// AllowHeaders:     strings.Split(viper.GetString("cors.allow_headers"), ","),
 		AllowCredentials: true,
